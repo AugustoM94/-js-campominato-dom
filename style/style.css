@@ -33,3 +33,22 @@ button, select{
   font-size: 1.5rem;
   color: black;
 }
+
+#countdown {
+  color: red;
+  background-color: black;
+  width: 40%;
+  height: 100%;
+  display: inline-block;
+  border: 4px inset #bbb;
+  margin: 0px;
+  text-align: center;
+  font-family: DigitalCounter, 'Roboto', sans-serif;
+  vertical-align: middle;
+  font-size: 1.5rem;
+}
+
+img {
+  width: 40px;
+}
+

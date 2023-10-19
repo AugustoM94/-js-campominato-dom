@@ -10,7 +10,6 @@ let gameOver = false;
 let score = 0;
 let numSquare;
 let bombs = [];
-const max_attempt = numSquare - numBombs;
 
 
 btn.addEventListener('click', function () {
@@ -28,11 +27,11 @@ btn.addEventListener('click', function () {
     }
 
     bombs = generateBombs();
-    countdown.innerHTML = timeleft + "&nbsp";
+    countdown.innerHTML = "TEMPO: " + timeleft;
 
     downloadTimer = setInterval(function () {
         timeleft ++;
-        countdown.innerHTML = timeleft + "&nbsp";
+        countdown.innerHTML = timeleft + "s";
     }, 1000);
 
     const playground = document.getElementById('playground');
@@ -42,6 +41,7 @@ btn.addEventListener('click', function () {
         let square = drawSquare(i, numSquare);
         playground.append(square);
     }
+
 });
 
 resetBtn.addEventListener('click', function () {
@@ -56,16 +56,18 @@ resetBtn.addEventListener('click', function () {
     score = 0;
     gameOver = false;
 });
+const max_attempt = numSquare - numBombs;
 
-function drawClick(square, squareIndex) {
+function drawClick(square, squareIndex, gameOver) {
+                square.removeEventListener('click' ,drawClick);
+
     square.innerHTML = squareIndex + 1;
-    let message  
     if (bombs.includes(squareIndex + 1)) {
         square.classList.add('bomb');
         square.style.color = 'black';
         square.innerHTML = '<i class="fa-solid fa-bomb fa-beat"></i>';
-        message = `Hai perso !!! il tuo punteggio è: ${score}`;
-        gameOver();
+        gameOver = true;
+        message = `Hai Perso !!! il tuo punteggio è: ${score}`;
     } else {
         square.classList.add('active');
         square.style.color = 'white';
@@ -73,11 +75,23 @@ function drawClick(square, squareIndex) {
         if (score === max_attempt) {
             message = `Hai vinto !!! il tuo punteggio è: ${score}`;
             gameOver();
-        } else {
+            
+        } else  {
             message = `il tuo punteggio è: ${score}`;
-        }
-        document.getElementById('score').innerHTML = message
+        } 
+        
     }
+    document.getElementById('score').innerHTML = message
+}
+function generateBombs() {
+    const bombsArray = [];
+    while (bombsArray.length < numBombs) {
+        let bomb = getRandomNumber(1, numSquare);
+        if (!bombsArray.includes(bomb)) {
+            bombsArray.push(bomb);
+        }
+    }
+    return bombsArray;
 }
 
 function drawSquare(squareIndex, numSquare) {
@@ -107,16 +121,7 @@ function drawSquare(squareIndex, numSquare) {
     }
 }
 
-function generateBombs() {
-    const bombsArray = [];
-    while (bombsArray.length < numBombs) {
-        let bomb = getRandomNumber(1, numSquare);
-        if (!bombsArray.includes(bomb)) {
-            bombsArray.push(bomb);
-        }
-    }
-    return bombsArray;
-}
+
 
 function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
