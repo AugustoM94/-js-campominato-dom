@@ -37,7 +37,7 @@ btn.addEventListener('click', function () {
         let square = drawSquare(i, numSquare);
         playground.append(square);
     }
-    gererateBombs(numSquare);
+    generateBombs(numSquare);
     const max_attempt = numSquare - numBombs;
 });
 
@@ -54,34 +54,63 @@ resetBtn.addEventListener('click', function () {
 
 function drawSquare(squareIndex, numSquare) {
     const squareWidth = Math.sqrt(numSquare);
-
     const square = document.createElement('div');
     square.classList.add('square');
     square.style.width = `calc(100% / ${squareWidth})`;
     square.style.height = square.style.width;
-    square.addEventListener('click', function () {
-        square.classList.add('bomb');
-        square.innerHTML = '<i class="fa-solid fa-bomb fa-beat"></i>';
-        gameOver = true;
+    square.addEventListener ('click', function drawClick() {
         square.innerHTML = squareIndex + 1;
+        let message;
+        if(bombs.includes(parseInt(square.textContent))){
+            square.classList.add('bomb');
+            square.style.color = 'white';
+            square.innerHTML = '<i class="fa-solid fa-bomb fa-beat"></i>';
+            message = `Hai perso !!! il tuo punteggio è: ${score}`;
+       gameOver()    
+        } else {
         square.classList.add('active');
         square.style.color = 'white';
         score++
-        document.getElementById('score').innerHTML = `"il tuo punteggio è ${score}"`; 
-    });
+        if(score === max_attempt) {
+            message = `Hai vinto !!! il tuo punteggio è: ${score}`;
+            gameOver()
+        } else {
+             message = `il tuo punteggio è: ${score}`
+        }
+}});
+function gameOver(){
+    const arraySquareBombs = document.getElementsByClassName('square');
+    for ( let i = 0; i < arraySquareBombs.length; i++){
+        let el = arraySquareBombs[i];
+        el.removeEventListener('click', drawClick);
+        if (bombs.includes(parseInt(el.textContent))){
+            el.classList.add("bomb");
+            el.style.color = "black";
+            el.innerHTML =  '<i class="fa-solid fa-bomb fa-beat"></i>';
+        }
+    }
+}
 
     return square;
+
+    function gererateBombs(numSquare){
+        const bombsArray = [];
+        while(bombsArray.length < numBombs){
+            let bomb = getRandomInteger(1, numSquare);
+            if(!bombsArray.includes(bomb)){
+                bombsArray.push(bomb)
+                
+            }
+        } 
+    }
+    
 }
 
-function gererateBombs(numSquare){
-    const bombsArray = [];
-    while(bombsArray.length < numBombs){
-        let bomb = getRndInteger(1, numSquare);
-        if(!bombsArray.includes(bomb)){
-            bombsArray.push(bomb)
-        }
-    } 
-}
+
+
+
+
+
 
 function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
