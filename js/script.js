@@ -9,6 +9,9 @@ const numBombs = 16;
 let gameOver = false;
 let score;;
 let numSquare;
+let bombs;
+
+
 btn.addEventListener('click', function () {
     const difficulty = parseInt(difficultySelect.value); 
 
@@ -22,7 +25,7 @@ btn.addEventListener('click', function () {
         numSquare = 49;
         timeleft = 0;
     }
-
+    
     countdown.innerHTML = timeleft + "&nbsp";
 
     downloadTimer = setInterval(function () {
@@ -37,9 +40,18 @@ btn.addEventListener('click', function () {
         let square = drawSquare(i, numSquare);
         playground.append(square);
     }
-    generateBombs(numSquare);
     const max_attempt = numSquare - numBombs;
-});
+    function generateBombs(){
+        const bombsArray = [];
+        while(bombsArray.length < numBombs){
+            let bomb = getRandomInteger(1, numSquare);
+            if(!bombsArray.includes(bomb)){
+                bombsArray.push(bomb)
+                
+            }
+        } 
+        return bombsArray;
+}});
 
 resetBtn.addEventListener('click', function () {
     const squares = document.querySelectorAll('.square');
@@ -78,6 +90,9 @@ function drawSquare(squareIndex, numSquare) {
              message = `il tuo punteggio è: ${score}`
         }
 }});
+
+return square;
+
 function gameOver(){
     const arraySquareBombs = document.getElementsByClassName('square');
     for ( let i = 0; i < arraySquareBombs.length; i++){
@@ -91,20 +106,9 @@ function gameOver(){
     }
 }
 
-    return square;
-
-    function gererateBombs(numSquare){
-        const bombsArray = [];
-        while(bombsArray.length < numBombs){
-            let bomb = getRandomInteger(1, numSquare);
-            if(!bombsArray.includes(bomb)){
-                bombsArray.push(bomb)
-                
-            }
-        } 
     }
     
-}
+
 
 
 
