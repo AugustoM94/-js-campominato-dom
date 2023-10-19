@@ -1,0 +1,30 @@
+
+#playground {
+  width: 600px;
+  height: 600px;
+  background-color: lightgray;
+  margin: 40px auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+button, select{
+  border-radius: 10%;  
+}
+
+.square {
+  background-color: darkgray;
+    border: 2px groove white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 20px 20px 25px #333333;
+
+}
+
+.active {
+    background-color: blue;
+    font-size: 1.5rem;
+    color: white;
+}
