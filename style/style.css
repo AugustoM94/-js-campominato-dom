@@ -28,3 +28,8 @@ button, select{
     font-size: 1.5rem;
     color: white;
 }
+.bomb{
+  background-color: red;
+  font-size: 1.5rem;
+  color: black;
+}
